@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+display:flex;
+height:100vh;
+}
+
+.dashboard{
+display:flex;
+width:100%;
+height:100%;
+}
+
+.sidebar{
+width:250px;
+background:#2c3e50;
+color:white;
+padding:20px;
+}
+
+.sidebar h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+.sidebar ul{
+list-style:none;
+padding:0;
+}
+
+.sidebar ul li{
+margin-bottom:15px;
+}
+
+.sidebar ul li a{
+color:white;
+text-decoration:none;
+font-size:18px;
+display:block;
+padding:10px;
+border-radius:5px;
+}
+
+.sidebar ul li a:hover{
+background:#34495e;
+}
+
+.main-content{
+flex-grow:1;
+padding:20px;
+background:#ecf0f1;
+}
+
+#content{
+margin-top:20px;
+padding:20px;
+background:white;
+border-radius:5px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.btn{
+border:1px solid black;
+background:transparent;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+margin-right:10px;
+}
+
+.btn:hover{
+background:black;
+color:white;
+}
+
+.progress{
+background:#ddd;
+height:20px;
+border-radius:5px;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:20px;
+border-radius:5px;
+}
+
+.announcement{
+margin-bottom:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<div class="sidebar">
+
+<h2>Student Portal</h2>
+
+<ul>
+<li><a href="#" id="dashboard">Dashboard</a></li>
+<li><a href="#" id="aptitude">Aptitude</a></li>
+<li><a href="#" id="tech">DSA Practice</a></li>
+<li><a href="#" id="Mockinterview">Mock Interview</a></li>
+<li><a href="#" id="resume">Resume Builder</a></li>
+<li><a href="#" id="resumeats">Resume Scanner</a></li>
+<li><a href="#" id="announcements">Announcements</a></li>
+<li><a href="#" id="profile">Profile</a></li>
+<li><a href="#" id="logout">Logout</a></li>
+</ul>
+
+</div>
+
+<div class="main-content">
+
+<h1>Welcome, <span id="fullName">Student</span></h1>
+
+<div id="content">
+<p>Select an option from the sidebar.</p>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const content=document.getElementById("content")
+
+/* --------------------------
+   USER DATA SYSTEM (FIXED)
+---------------------------*/
+
+let studentData=JSON.parse(localStorage.getItem("studentData"))
+
+if(!studentData){
+
+studentData={
+name:localStorage.getItem("fullName")||"Student",
+email:localStorage.getItem("email")||""
+}
+
+localStorage.setItem("studentData",JSON.stringify(studentData))
+
+}
+
+document.getElementById("fullName").textContent=studentData.name
+
+
+/* --------------------------
+   DASHBOARD (PERFORMANCE)
+---------------------------*/
+
+document.getElementById("dashboard").addEventListener("click",function(){
+
+const aptitudeScore=localStorage.getItem("aptitudeScore")||0
+const dsaScore=localStorage.getItem("dsaScore")||0
+const interviewScore=localStorage.getItem("interviewScore")||0
+
+content.innerHTML=`
+
+<h2>Dashboard</h2>
+
+<h3>Your Performance</h3>
+
+<p>Aptitude</p>
+<div class="progress">
+<div class="progress-bar" style="width:${aptitudeScore}%;background:#27ae60;"></div>
+</div>
+
+<p>DSA</p>
+<div class="progress">
+<div class="progress-bar" style="width:${dsaScore}%;background:#2980b9;"></div>
+</div>
+
+<p>Mock Interview</p>
+<div class="progress">
+<div class="progress-bar" style="width:${interviewScore}%;background:#8e44ad;"></div>
+</div>
+
+<p><b>Aptitude Score:</b> ${aptitudeScore}%</p>
+<p><b>DSA Score:</b> ${dsaScore}%</p>
+<p><b>Interview Score:</b> ${interviewScore}%</p>
+
+`
+
+})
+
+
+/* --------------------------
+   APTITUDE
+---------------------------*/
+
+document.getElementById("aptitude").addEventListener("click",function(e){
+
+e.preventDefault()
+
+content.innerHTML=`
+
+<h2>Aptitude Options</h2>
+
+<button id="quizButton" class="btn">Aptitude Quiz</button>
+<button id="dashboardButton" class="btn">Result Analysis</button>
+
+`
+
+document.getElementById("quizButton").onclick=function(){
+
+window.location.href="http://localhost:8501"
+
+}
+
+document.getElementById("dashboardButton").onclick=function(){
+
+window.location.href="http://localhost:8502"
+
+}
+
+})
+
+
+/* --------------------------
+   MOCK INTERVIEW
+---------------------------*/
+
+document.getElementById("Mockinterview").addEventListener("click",function(){
+
+content.innerHTML=`
+
+<h2>Mock Interview</h2>
+<button class="btn" onclick="window.location.href='http://localhost:8505'">Start Interview</button>
+
+`
+
+})
+
+
+/* --------------------------
+   RESUME BUILDER
+---------------------------*/
+
+document.getElementById("resume").addEventListener("click",function(){
+
+content.innerHTML=`
+
+<h2>Resume Builder</h2>
+
+<p>Create your professional resume</p>
+
+<button class="btn" onclick="window.location.href='Form.html'">
+Create Resume
+</button>
+
+`
+
+})
+
+
+/* --------------------------
+   ATS SCANNER
+---------------------------*/
+
+document.getElementById("resumeats").addEventListener("click",function(){
+
+content.innerHTML=`
+
+<h2>Resume Scanner</h2>
+
+<p>Check if your resume is job ready</p>
+
+<button class="btn" onclick="window.location.href='http://localhost:8506'">
+Start ATS Scan
+</button>
+
+`
+
+})
+
+
+/* --------------------------
+   ANNOUNCEMENTS
+---------------------------*/
+
+document.getElementById("announcements").addEventListener("click",function(){
+
+content.innerHTML="<h2>Announcements</h2><p>Loading...</p>"
+
+fetch("http://localhost:3000/announcements")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+if(!data.length){
+
+content.innerHTML="<h2>Announcements</h2><p>No announcements available</p>"
+return
+
+}
+
+let html="<h2>Announcements</h2>"
+
+data.forEach(a=>{
+
+html+=`
+
+<div class="announcement">
+
+<h3>${a.title}</h3>
+<p>${a.content}</p>
+<small>${new Date(a.createdAt).toLocaleString()}</small>
+
+<hr>
+
+</div>
+
+`
+
+})
+
+content.innerHTML=html
+
+})
+
+.catch(()=>{
+
+content.innerHTML="<h2>Announcements</h2><p>Failed to load announcements</p>"
+
+})
+
+})
+
+
+/* --------------------------
+   PROFILE
+---------------------------*/
+
+document.getElementById("profile").addEventListener("click",function(){
+
+content.innerHTML=`
+
+<h2>Profile</h2>
+
+<p><b>Name:</b> ${studentData.name}</p>
+<p><b>Email:</b> ${studentData.email}</p>
+
+`
+
+})
+
+
+/* --------------------------
+   LOGOUT
+---------------------------*/
+
+document.getElementById("logout").addEventListener("click",function(){
+
+localStorage.clear()
+
+window.location.href="student-login.html"
+
+})
+
+
+})
+
+</script>
+
+</body>
+</html>
